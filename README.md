@@ -10,13 +10,16 @@ https://github.com/michaelbrusegard/tabline.wez
 
 https://github.com/rootiest/battery.wez
 
-## Directory Structure
+## Directory Structure (development)
 
 ```txt
 .
 ├── plugins
 │   └── tabline-wez
-│       └── init.lua
+│       ├── init.lua
+│       ├── options.lua
+│       ├── sections.lua
+│       └── extensions.lua
 ├── plugins_tabline-wez_init.lua
 ├── event.lua
 ├── format.lua
