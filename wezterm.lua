@@ -108,5 +108,7 @@ end
 debug_log_print()
 
 -- Plugins
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+tabline.setup(require("opts-tabline"))
 
 return config
