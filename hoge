@@ -1,0 +1,8 @@
+mkdir plugins/modal-wezterm
+touch plugins/modal-wezterm/init.lua
+
+mkdir plugins/presentation-wez
+touch plugins/presentation-wez/init.lua
+
+mkdir plugins/battery-wez
+touch plugins/battery-wez/init.lua
