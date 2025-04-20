@@ -108,9 +108,5 @@ end
 debug_log_print()
 
 -- Plugins
-local modal_wezterm = "https://github.com/MLFlexer/modal.wezterm"
-
-local modal = wezterm.plugin.require(modal_wezterm)
-modal.apply_to_config(config)
 
 return config
