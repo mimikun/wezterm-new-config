@@ -27,9 +27,9 @@ local font_size = {
     window_frame = is_azusa and 12 or 10,
 }
 
-require("format")
-require("status")
-require("event")
+--require("format")
+--require("status")
+--require("event")
 
 -- appearance
 config.color_scheme = "GitHub Dark"
