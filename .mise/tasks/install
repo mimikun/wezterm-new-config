@@ -1,0 +1,10 @@
+#!/bin/bash
+# mise description="Install wezterm configs in Windows"
+
+# remove old configs
+rm -f $WIN_HOME/.config/wezterm/*
+
+# copy new configs
+cp ./*.lua $WIN_HOME/.config/wezterm/
+
+# vim:ft=bash
