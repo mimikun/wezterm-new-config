@@ -44,18 +44,9 @@ end
 --local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
 --tabline.setup(require("plugins_tabline-wez_init"))
 
-local function debug_log_print()
-    --wezterm.log_info("Home Dir " .. global.home)
-    --wezterm.log_info("Config Dir " .. global.config_dir)
-    --wezterm.log_info("Config file " .. global.config_file)
-    --wezterm.log_info("Version " .. global.version)
-    --wezterm.log_info("Exe dir " .. global.exec_dir)
-    --wezterm.log_info("Hostname " .. hostname)
-    --wezterm.log_info("Path sep " .. global.path_sep)
-    --wezterm.log_info("Running under wsl" .. tostring(global.is_wsl))
-    config.debug_key_events = true
-end
-debug_log_print()
+-- NOTE: Load some utils
+-- Debug Log print module
+require("utils.log").debug_log_print(config)
 
 -- Returns a table with ALL-configs
 return config
