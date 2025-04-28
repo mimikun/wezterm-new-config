@@ -32,10 +32,18 @@ require("config.fonts")(config)
 -- Load keyboard settings
 require("config.keyboard")(config)
 
+-- Load mouse settings
+require("config.mouse")(config)
+
 -- Load default program settings
 require("config.programs")(config)
 
--- Load Launcher-menu settings
+-- Load kabegami settings, if only `is_human_rights=true`
+if g.is_human_rights then
+    require("config.kabegami")(config)
+end
+
+-- Load Launcher-menu settings, if only `hostname!=azusa`
 if not g.is_azusa then
     require("config.menu")(config)
 end
