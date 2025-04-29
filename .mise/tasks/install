@@ -5,6 +5,7 @@
 #rm -rf $WIN_HOME/.config/wezterm/*
 
 # copy new configs
+echo "Copy tabline.wez config, but sections.lua only"
 cp ./lua/plugins/tabline-wez/sections.lua $WIN_HOME/.config/wezterm/lua/plugins/tabline-wez/sections.lua
 
 # vim:ft=bash
