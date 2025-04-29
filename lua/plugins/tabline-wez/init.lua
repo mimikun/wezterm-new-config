@@ -1,49 +1,16 @@
 local wezterm = require("wezterm")
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+local battery = wezterm.plugin.require("https://github.com/rootiest/battery.wez")
+battery.invert = true
 
-local options = {
-    icons_enabled = true,
-    theme = "GitHub Dark",
-    tabs_enabled = true,
-    theme_overrides = {},
-    section_separators = {
-        left = wezterm.nerdfonts.pl_left_hard_divider,
-        right = wezterm.nerdfonts.pl_right_hard_divider,
-    },
-    component_separators = {
-        left = wezterm.nerdfonts.pl_left_soft_divider,
-        right = wezterm.nerdfonts.pl_right_soft_divider,
-    },
-    tab_separators = {
-        left = wezterm.nerdfonts.pl_left_hard_divider,
-        right = wezterm.nerdfonts.pl_right_hard_divider,
-    },
-}
+return function(config)
+    local options = require("plugins.tabline-wez.options")(config)
+    local sections = require("plugins.tabline-wez.sections")(config, battery)
+    local extensions = { "presentation" }
 
-local sections = {
-    tabline_a = { "mode" },
-    tabline_b = { "workspace" },
-    tabline_c = { " " },
-    tab_active = {
-        "index",
-        { "parent", padding = 0 },
-        "/",
-        { "cwd", padding = { left = 0, right = 1 } },
-        { "zoomed", padding = 0 },
-    },
-    tab_inactive = { "index", { "process", padding = { left = 0, right = 1 } } },
-    tabline_x = { "ram", "cpu" },
-    tabline_y = { "datetime", "battery" },
-    tabline_z = { "domain" },
-}
-
-local extensions = {
-    -- TODO: it
-}
-
-local opts_tabline = {
-    options = options,
-    sections = sections,
-    extensions = extensions,
-}
-
-return opts_tabline
+    tabline.setup({
+        options = options,
+        sections = sections,
+        extensions = extensions,
+    })
+end

@@ -4,10 +4,24 @@
 local wezterm = require("wezterm")
 
 -- Define path sep
-local path_sep = (wezterm.target_triple == "x86_64-pc-windows-msvc") and "\\" or "/"
+local path_sep = (wezterm.target_triple:find("windows")) and "\\" or "/"
+
+-- Base directories
+local dirs = {
+    lua = wezterm.config_dir .. path_sep .. "lua",
+    plugins = wezterm.config_dir .. path_sep .. "plugins",
+}
+
+-- Add Search paths
+local search_paths = {
+    dirs.lua .. path_sep .. "?.lua",
+    dirs.lua .. path_sep .. "?" .. path_sep .. "init.lua",
+    dirs.plugins .. path_sep .. "?.lua",
+    dirs.plugins .. path_sep .. "?" .. path_sep .. "init.lua",
+}
 
 -- Expand package.path
-package.path = package.path .. ";" .. wezterm.config_dir .. path_sep .. "lua" .. path_sep .. "?.lua"
+package.path = package.path .. ";" .. table.concat(search_paths, ";")
 
 -- Create a special type table object
 local config = wezterm.config_builder and wezterm.config_builder() or {}
@@ -15,46 +29,64 @@ local config = wezterm.config_builder and wezterm.config_builder() or {}
 -- Load global module
 local g = require("config.global")
 
--- NOTE: Load some Configs
+-- NOTE: Define safe_require function
+local function safe_require(module_name)
+    local success, module = pcall(require, module_name)
+    if success and type(module) == "function" then
+        return module(config)
+    elseif not success then
+        wezterm.log_info("Failed to load " .. module_name)
+        return config
+    end
+end
 
+-- NOTE: Load some Configs
 -- Load color settings
-require("config.colors")(config)
+safe_require("config.colors")
 
 -- Load appearance settings
-require("config.appearance")(config)
+safe_require("config.appearance")
 
 -- Load window settings
-require("config.window")(config)
+safe_require("config.window")
 
 -- Load font settings
-require("config.fonts")(config)
+safe_require("config.fonts")
 
 -- Load keyboard settings
-require("config.keyboard")(config)
+safe_require("config.keyboard")
 
 -- Load mouse settings
-require("config.mouse")(config)
+safe_require("config.mouse")
 
 -- Load default program settings
-require("config.programs")(config)
+safe_require("config.programs")
 
 -- Load kabegami settings, if only `is_human_rights=true`
 if g.is_human_rights then
-    require("config.kabegami")(config)
+    safe_require("config.kabegami")
 end
 
 -- Load Launcher-menu settings, if only `hostname!=azusa`
 if not g.is_azusa then
-    require("config.menu")(config)
+    safe_require("config.menu")
 end
 
 -- NOTE: Load some Plugins
---local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
---tabline.setup(require("plugins_tabline-wez_init"))
+safe_require("plugins.battery-wez")
+-- XXX: I don't know how to use it
+--safe_require("plugins.modal-wezterm")
+safe_require("plugins.presentation-wez")
+safe_require("plugins.tabline-wez")
 
 -- NOTE: Load some utils
 -- Debug Log print module
-require("utils.log").debug_log_print(config)
+local success, log = pcall(require, "utils.log")
+if success then
+    log.debug_log_print(config)
+else
+    wezterm.log_info("Failed to load utils.log")
+end
 
 -- Returns a table with ALL-configs
 return config
