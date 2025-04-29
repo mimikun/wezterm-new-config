@@ -2,9 +2,9 @@
 # mise description="Install wezterm configs in Windows"
 
 # remove old configs
-rm -rf $WIN_HOME/.config/wezterm/*
+#rm -rf $WIN_HOME/.config/wezterm/*
 
 # copy new configs
-cp -r ./* $WIN_HOME/.config/wezterm/
+cp ./lua/plugins/tabline-wez/sections.lua $WIN_HOME/.config/wezterm/lua/plugins/tabline-wez/sections.lua
 
 # vim:ft=bash
