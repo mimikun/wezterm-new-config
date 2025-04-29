@@ -20,102 +20,14 @@ return function(config, battery)
         },
         tab_inactive = { "index", { "process", padding = { left = 0, right = 1 } } },
         tabline_x = { { "ram" }, { "cpu" } },
-        tabline_y = { "datetime" },
+        tabline_y = {
+            {
+                "datetime",
+                cond = function()
+                    return false
+                end,
+            },
+        },
         tabline_z = { { "battery" } },
     }
 end
-
---[[
-return function(config, battery)
-
-    local function ja_date()
-        local day_of_week_ja = { "日", "月", "火", "水", "木", "金", "土" }
-        local wday = os.date("*t").wday
-        local wday_ja = string.format("(%s)", day_of_week_ja[wday])
-        return wezterm.strftime("%Y年%m月%d日 " .. wday_ja)
-    end
-
-    local function key_state(window)
-        if window:leader_is_active() then
-            return leader_key_icon
-        elseif window:composition_status() then
-            return ime_icon
-        else
-            return normal_key_icon
-        end
-    end
-
-    return {
-        tabline_a = {
-            key_state,
-            -- TODO: it
-        },
-        tabline_b = {
-            "mode",
-        },
-        tabline_c = {
-            " ",
-            -- TODO: it
-        },
-        tab_active = {
-            -- index number
-            "index",
-            {
-                "parent",
-                padding = 0,
-            },
-            -- separator
-            "/",
-            {
-                "cwd",
-                padding = { left = 0, right = 1 },
-            },
-            {
-                "zoomed",
-                padding = 0,
-            },
-        },
-        tab_inactive = {
-            -- index number
-            "index",
-            {
-                "process",
-                padding = { left = 0, right = 1 },
-            },
-        },
-        tabline_x = {
-            -- TODO: it
-            {
-                "ram",
-                cond = true,
-            },
-            --require("config.global").is_human_rights()
-            {
-                "cpu",
-                cond = false,
-            },
-        },
-        tabline_y = {
-            -- date
-            --{ ja_date },
-            {
-                "datetime",
-                style = "%Y年%m月%d日",
-                --cond = true,
-            },
-            -- time
-            {
-                "datetime",
-                style = "%H:%M:%S",
-                --cond = true,
-            },
-        },
-        tabline_z = {
-            {
-                battery.get_battery_icons,
-                --cond = false,
-            },
-        },
-    }
-end
-]]
