@@ -1,4 +1,27 @@
 local wezterm = require("wezterm")
+local nf = wezterm.nerdfonts
+
+---@type table
+local seps = {
+    section = {
+        --left = nf.pl_left_hard_divider,
+        left = "",
+        --right = nf.pl_right_hard_divider,
+        right = "",
+    },
+    component = {
+        --left = nf.pl_left_soft_divider,
+        left = "",
+        --right = nf.pl_right_soft_divider,
+        right = "",
+    },
+    tab = {
+        --left = nf.pl_left_hard_divider,
+        left = "▎",
+        --right = nf.pl_right_hard_divider,
+        right = "",
+    },
+}
 
 return function(config)
     return {
@@ -7,16 +30,16 @@ return function(config)
         tabs_enabled = true,
         theme_overrides = {},
         section_separators = {
-            left = wezterm.nerdfonts.pl_left_hard_divider,
-            right = wezterm.nerdfonts.pl_right_hard_divider,
+            left = seps.section.left,
+            right = seps.section.right,
         },
         component_separators = {
-            left = wezterm.nerdfonts.pl_left_soft_divider,
-            right = wezterm.nerdfonts.pl_right_soft_divider,
+            left = seps.component.left,
+            right = seps.component.right,
         },
         tab_separators = {
-            left = wezterm.nerdfonts.pl_left_hard_divider,
-            right = wezterm.nerdfonts.pl_right_hard_divider,
+            left = seps.tab.left,
+            right = seps.tab.right,
         },
     }
 end
