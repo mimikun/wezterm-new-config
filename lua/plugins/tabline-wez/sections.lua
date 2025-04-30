@@ -1,6 +1,7 @@
 local wezterm = require("wezterm")
 local g = require("config.global")
 local is_not_windows = not g.is_windows
+local is_human_rights = g.is_human_rights
 
 local nf = wezterm.nerdfonts
 
@@ -9,11 +10,24 @@ local normal_key_icon = nf.md_alphabetical_variant .. SPACE_1
 local leader_key_icon = nf.md_keyboard_outline .. SPACE_1
 local ime_icon = nf.md_syllabary_hiragana .. SPACE_1
 
-local function ja_date()
-    local day_of_week_ja = { "日", "月", "火", "水", "木", "金", "土" }
-    local wday = os.date("*t").wday
-    local wday_ja = string.format("(%s)", day_of_week_ja[wday])
-    return wezterm.strftime("%Y年%m月%d日 " .. wday_ja)
+local function convertWeekdayToJapanese(dateString)
+    -- 英語の曜日短縮表記と日本語の曜日の対応表
+    local weekdays = {
+        ["Sun"] = "日",
+        ["Mon"] = "月",
+        ["Tue"] = "火",
+        ["Wed"] = "水",
+        ["Thu"] = "木",
+        ["Fri"] = "金",
+        ["Sat"] = "土",
+    }
+
+    -- 日付文字列から曜日部分を抽出して変換
+    local result = dateString:gsub("%((%a+)%)", function(weekday)
+        return "(" .. (weekdays[weekday] or weekday) .. ")"
+    end)
+
+    return result
 end
 
 local function key_state(window)
@@ -77,14 +91,19 @@ return function(config, battery)
         tabline_y = {
             -- TODO: checknow
             -- date
-            { "datetime" },
+            {
+                "datetime",
+                style = "%Y年%m月%d日(%a)",
+                fmt = convertWeekdayToJapanese,
+            },
             -- time
-            --{ "datetime" },
-            --style = "%H:%M:%S",
-            --style = "%Y年%m月%d日",
-            --cond = function()
-            --    return g.is_human_rights
-            --end,
+            {
+                "datetime",
+                style = "%H:%M:%S",
+                cond = function()
+                    return is_human_rights
+                end,
+            },
         },
         tabline_z = {
             --{
