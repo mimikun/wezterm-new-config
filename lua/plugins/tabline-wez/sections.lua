@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local g = require("config.global")
+local is_not_windows = not g.is_windows
 
 local nf = wezterm.nerdfonts
 
@@ -63,19 +64,20 @@ return function(config, battery)
             {
                 "ram",
                 cond = function()
-                    return not g.is_windows
+                    return is_not_windows
                 end,
             },
             {
                 "cpu",
                 cond = function()
-                    return not g.is_windows
+                    return is_not_windows
                 end,
             },
         },
         tabline_y = {
+            -- TODO: checknow
             -- date
-            "datetime",
+            { "datetime" },
             -- time
             --{ "datetime" },
             --style = "%H:%M:%S",
@@ -85,12 +87,12 @@ return function(config, battery)
             --end,
         },
         tabline_z = {
-            {
-                battery.get_battery_icons,
-                cond = function()
-                    return g.is_azusa
-                end,
-            },
+            --{
+            --battery.get_battery_icons,
+            --cond = function()
+            --return g.is_azusa
+            --end,
+            --},
         },
     }
 end
