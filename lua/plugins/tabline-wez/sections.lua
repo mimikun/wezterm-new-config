@@ -75,18 +75,14 @@ return function(config, battery)
         },
         tabline_y = {
             -- date
-            --{
-            --    "datetime",
-            --    style = "%Y年%m月%d日",
-            --},
+            "datetime",
             -- time
-            {
-                "datetime",
-                style = "%H:%M:%S",
-                cond = function()
-                    return g.is_human_rights
-                end,
-            },
+            --{ "datetime" },
+            --style = "%H:%M:%S",
+            --style = "%Y年%m月%d日",
+            --cond = function()
+            --    return g.is_human_rights
+            --end,
         },
         tabline_z = {
             {
