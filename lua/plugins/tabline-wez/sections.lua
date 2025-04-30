@@ -1,44 +1,12 @@
 local wezterm = require("wezterm")
+local g = require("config.global")
+
 local nf = wezterm.nerdfonts
 
 local SPACE_1 = " "
 local normal_key_icon = nf.md_alphabetical_variant .. SPACE_1
 local leader_key_icon = nf.md_keyboard_outline .. SPACE_1
 local ime_icon = nf.md_syllabary_hiragana .. SPACE_1
-
-return function(config, battery)
-    return {
-        tabline_a = { "mode" },
-        tabline_b = { "workspace" },
-        tabline_c = { SPACE_1 },
-        tab_active = {
-            "index",
-            { "parent", padding = 0 },
-            "/",
-            { "cwd", padding = { left = 0, right = 1 } },
-            { "zoomed", padding = 0 },
-        },
-        tab_inactive = { "index", { "process", padding = { left = 0, right = 1 } } },
-        tabline_x = { { "ram" }, { "cpu" } },
-        tabline_y = {
-            {
-                "datetime",
-                cond = function()
-                    return false
-                end,
-            },
-        },
-        tabline_z = { { "battery" } },
-    }
-end
-
--- NOTE: Configuration under testing
---[[
-local wezterm = require("wezterm")
-local nf = wezterm.nerdfonts
-local normal_key_icon = nf.md_alphabetical_variant .. " "
-local leader_key_icon = nf.md_keyboard_outline .. " "
-local ime_icon = nf.md_syllabary_hiragana .. " "
 
 local function ja_date()
     local day_of_week_ja = { "日", "月", "火", "水", "木", "金", "土" }
@@ -60,16 +28,11 @@ end
 return function(config, battery)
     return {
         tabline_a = {
-            " ",
             -- NOTE: can't work now
             --key_state,
         },
-        tabline_b = {
-            "mode",
-        },
-        tabline_c = {
-            " ",
-        },
+        tabline_b = { "mode" },
+        tabline_c = {},
         tab_active = {
             -- index number
             "index",
@@ -100,46 +63,38 @@ return function(config, battery)
             {
                 "ram",
                 cond = function()
-                    return true
+                    return not g.is_windows
                 end,
             },
             {
                 "cpu",
                 cond = function()
-                    return true
+                    return not g.is_windows
                 end,
             },
         },
         tabline_y = {
             -- date
-            -- NOTE: I want to use ja_date instead of datetime in the future
             {
                 "datetime",
                 style = "%Y年%m月%d日",
-                cond = function()
-                    return true
-                end,
             },
             -- time
-            -- NOTE: Disable it if you have a low spec PC.
             {
                 "datetime",
                 style = "%H:%M:%S",
                 cond = function()
-                    return false
+                    return g.is_human_rights
                 end,
             },
         },
         tabline_z = {
-            -- battery
-            -- NOTE: Disable it if you have a low spec PC.
             {
                 battery.get_battery_icons,
                 cond = function()
-                    return false
+                    return g.is_azusa
                 end,
             },
         },
     }
 end
-]]
