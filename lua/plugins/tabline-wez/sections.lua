@@ -5,13 +5,13 @@ local is_human_rights = g.is_human_rights
 
 local nf = wezterm.nerdfonts
 
-local SPACE_1 = " "
-local normal_key_icon = nf.md_alphabetical_variant .. SPACE_1
-local leader_key_icon = nf.md_keyboard_outline .. SPACE_1
-local ime_icon = nf.md_syllabary_hiragana .. SPACE_1
+local SPACE = "  "
+local normal_key_icon = SPACE .. nf.md_alphabetical_variant .. SPACE
+local leader_key_icon = SPACE .. nf.md_keyboard_outline .. SPACE
+local ime_icon = SPACE .. nf.md_syllabary_hiragana .. SPACE
 
 local function convertWeekdayToJapanese(dateString)
-    -- 英語の曜日短縮表記と日本語の曜日の対応表
+    -- English weekday abbrs and Japanese weekday abbrs
     local weekdays = {
         ["Sun"] = "日",
         ["Mon"] = "月",
@@ -21,8 +21,7 @@ local function convertWeekdayToJapanese(dateString)
         ["Fri"] = "金",
         ["Sat"] = "土",
     }
-
-    -- 日付文字列から曜日部分を抽出して変換
+    -- Extract and convert the day of the week from the date string
     local result = dateString:gsub("%((%a+)%)", function(weekday)
         return "(" .. (weekdays[weekday] or weekday) .. ")"
     end)
@@ -43,8 +42,7 @@ end
 return function(config, battery)
     return {
         tabline_a = {
-            -- NOTE: can't work now
-            --key_state,
+            key_state,
         },
         tabline_b = { "mode" },
         tabline_c = {},
@@ -89,7 +87,6 @@ return function(config, battery)
             },
         },
         tabline_y = {
-            -- TODO: checknow
             -- date
             {
                 "datetime",
