@@ -75,10 +75,10 @@ return function(config, battery)
         },
         tabline_y = {
             -- date
-            {
-                "datetime",
-                style = "%Y年%m月%d日",
-            },
+            --{
+            --    "datetime",
+            --    style = "%Y年%m月%d日",
+            --},
             -- time
             {
                 "datetime",
